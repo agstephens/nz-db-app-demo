@@ -1,0 +1,7 @@
+notebook
+panel
+
+pandas
+numpy
+matplotlib
+
