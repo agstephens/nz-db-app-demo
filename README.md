@@ -96,6 +96,37 @@ Run with:
 ```
 BOKEH_ALLOW_WS_ORIGIN=192.168.50.99:5006 panel serve --address 192.168.50.99 --port 5006 --show fourth_app.ipynb
 ```
+## Convert and run without the python server
+
+You can convert into WASM (Web Assembly), see:
+
+https://panel.holoviz.org/user_guide/Running_in_Webassembly.html
+
+First, in the Notebook Service, got to: File -> Download As -> Python (.py)
+
+```
+panel convert fourth_app.py --to pyodide-worker --out pyodide --requirements requirements.txt
+```
+
+Writes to:
+
+`./pyodide/fourth.html`
+
+It needs the data via a URL, so modify this file to:
+
+```
+./pyodide/fourth_app.js:df = pd.read_csv("http://192.168.50.99:8000/mock_data.tsv", sep="\t")
+```
+
+Then, to serve it you need to do:
+
+```
+python3 -m http.server --bind 192.168.50.99
+```
+
+And then it becomes visible in:
+
+http://192.168.50.99:8000/pyodide/fourth_app.html
 
 
 ## References
